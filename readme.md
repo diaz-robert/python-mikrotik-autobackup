@@ -21,7 +21,7 @@ The `devices.txt` file contains the information of the devices in the following 
 
 ```
 # This is a comment and will not be processed
-Description, IP, username, certificate, port
+Description, IP, username, port
 ```
 
 The fields are:
@@ -29,14 +29,13 @@ The fields are:
 - `Description`: A description of the device.
 - `IP`: The IP address of the device.
 - `username`: The username to connect to the device.
-- `certificate`: The path of the file with the certificate.
 - `port`: The port to connect to the device.
 
 Example:
 
 ```
-Office Router,192.168.1.1,admin,~/certificate.pem,22
-Home Router,192.168.2.1,admin,~/certificate.pem,22
+Office Router,192.168.1.1,admin,22
+Home Router,192.168.2.1,admin,22
 ```
 
 To generate an authentication certificate for the Mikrotik user, follow the steps described in the official Mikrotik documentation: https://wiki.mikrotik.com/wiki/OpenVPN_Certificates#Creating_user_certificates_using_the_easy-rsa_scripts.
@@ -54,61 +53,3 @@ The script will create an `.rsc` file with the backup of each device in a subdir
 ## Contribution
 
 If you find any errors or wish to add functionality, please open a pull request.
-
----
-# Script para hacer respaldo de Mikrotik
-
-Este script en Python utiliza la librería `paramiko` para conectarse a múltiples dispositivos Mikrotik y hacer respaldo de la configuración en un archivo `.rsc`.
-
-## Requisitos
-
-- Python 3.x
-- Librería `paramiko`
-
-## Instalación
-
-1. Clonar el repositorio: `git clone https://github.com/diaz-robert/python-mikrotik-autobackup.git`
-2. Instalar las dependencias:
-   ```
-   pip install -r requirements.txt
-   ```
-
-## Configuración
-
-El archivo `devices.txt` contiene la información de los dispositivos en el siguiente formato:
-
-```
-# Este es un comentario y no se procesará
-Descripción, IP, usuario, certificado, puerto
-```
-
-Los campos son:
-
-- `Descripción`: Una descripción del dispositivo.
-- `IP`: La dirección IP del dispositivo.
-- `usuario`: El nombre de usuario para conectarse al dispositivo.
-- `certificado`: La ruta del archivo con el certificado.
-- `puerto`: El puerto para conectarse al dispositivo.
-
-Ejemplo:
-
-```
-Router de la oficina,192.168.1.1,admin,~/certificado.pem,22
-Router de la casa,192.168.2.1,admin,~/certificado.pem,22
-```
-
-Para generar un certificado de autenticación para el usuario del Mikrotik, siga los pasos descritos en la documentación oficial de Mikrotik: https://wiki.mikrotik.com/wiki/OpenVPN_Certificates#Creating_user_certificates_using_the_easy-rsa_scripts.
-
-## Uso
-
-Ejecute el script con el siguiente comando:
-
-```
-python respaldo.py
-```
-
-El script creará un archivo `.rsc` con el respaldo de cada dispositivo en un subdirectorio con el nombre de la descripción del dispositivo. Si el subdirectorio no existe, el script lo creará automáticamente.
-
-## Contribución
-
-Si encuentra algún error o desea agregar una funcionalidad, por favor abra un pull request.

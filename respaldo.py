@@ -4,43 +4,44 @@ import os
 import sys
 from datetime import datetime
 
-# Lee la información de los dispositivos desde el archivo 'devices.txt'
+# Read device information from 'devices.txt' file
 with open('devices.txt', 'r') as f:
     devices = f.readlines()
 
-# Itera sobre los dispositivos
+# Iterate over the devices
 for device in devices:
-    # si la línea comienza con el carácter # se considera comentario y no es procesado
+    # If the line starts with '#' it is considered a comment and is not processed
     if device.startswith('#'):
         continue
 
+    # Parse device information
     description, host, user, password, port = device.strip().split(',')
-    print(f"Conectando a {host}:{port}...")
+    print(f"Connecting to {host}:{port}...")
 
-    # Crea una conexión SSH
+    # Create an SSH connection
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
         client.connect(hostname=host, username=user, password=password, port=int(port))
-        print(f"Conexión establecida con {host}:{port}.")
+        print(f"Connected to {host}:{port}.")
 
-        # Ejecuta el comando 'export' en el Mikrotik
+        # Execute 'export' command on Mikrotik
         stdin, stdout, stderr = client.exec_command('export')
         output = stdout.read().decode()
 
-        # Guarda el archivo generado en el directorio actual
+        # Save the generated file in the current directory
         timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
         if not os.path.exists(description):
             os.makedirs(description)
         backup_filename = f"{description}/{description}_{timestamp}.rsc"
         with open(backup_filename, 'w') as f:
             f.write(output)
-        print(f"Respaldo generado exitosamente en {host}:{port}.")
+        print(f"Backup generated successfully on {host}:{port}.")
 
-        # Cierra la conexión SSH
+        # Close the SSH connection
         client.close()
-        print(f"Conexión cerrada con {host}:{port}.")
+        print(f"Connection closed to {host}:{port}.")
 
     except Exception as e:
-        print(f"Error al conectar a {host}:{port}: {e}")
+        print(f"Error connecting to {host}:{port}: {e}")
         continue
