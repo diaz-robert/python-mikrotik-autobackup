@@ -1,0 +1,2 @@
+#description,host-or-ip,username,pasword,port
+My-router-mikrotik,192.168.88.1,admin,mypassword,22
